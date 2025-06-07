@@ -170,14 +170,28 @@ def main():
         val_acc = correct / total
         return val_loss, val_acc
     
-    # Training loop
+    # Training loop with history tracking
     print("\nStarting enhanced model training...")
     best_val_loss = float('inf')
     patience_counter = 0
     
+    # Track training history
+    train_losses = []
+    train_accuracies = []
+    val_losses = []
+    val_accuracies = []
+    epochs_list = []
+    
     for epoch in range(1, NUM_EPOCHS + 1):
         train_loss, train_acc = train_one_epoch(epoch)
         val_loss, val_acc = validate()
+        
+        # Record history
+        epochs_list.append(epoch)
+        train_losses.append(train_loss)
+        train_accuracies.append(train_acc)
+        val_losses.append(val_loss)
+        val_accuracies.append(val_acc)
         
         print(f"[Epoch {epoch}] Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}")
         print(f"[Epoch {epoch}] Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}")
@@ -198,6 +212,44 @@ def main():
         if patience_counter >= 8:
             print(f"Early stopping after epoch {epoch}")
             break
+    
+    # Save training history
+    import matplotlib.pyplot as plt
+    
+    # Create training curves
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+    
+    # Loss curves
+    ax1.plot(epochs_list, train_losses, 'b-', label='Training Loss', linewidth=2)
+    ax1.plot(epochs_list, val_losses, 'r-', label='Validation Loss', linewidth=2)
+    ax1.set_title('Enhanced CNN-LSTM Training Loss')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Loss')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    
+    # Accuracy curves
+    ax2.plot(epochs_list, train_accuracies, 'b-', label='Training Accuracy', linewidth=2)
+    ax2.plot(epochs_list, val_accuracies, 'r-', label='Validation Accuracy', linewidth=2)
+    ax2.set_title('Enhanced CNN-LSTM Training Accuracy')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Accuracy')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig("../results/enhanced_cnn_lstm_training_curves.png", dpi=200, bbox_inches='tight')
+    print("Enhanced training curves saved to ../results/enhanced_cnn_lstm_training_curves.png")
+    
+    # Save training history data
+    training_history = {
+        'epochs': epochs_list,
+        'train_loss': train_losses,
+        'train_acc': train_accuracies,
+        'val_loss': val_losses,
+        'val_acc': val_accuracies
+    }
+    np.save("../results/enhanced_cnn_lstm_training_history.npy", training_history)
     
     print(f"\nEnhanced model training complete. Best validation loss: {best_val_loss:.4f}")
 

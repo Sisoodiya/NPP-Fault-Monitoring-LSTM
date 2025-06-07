@@ -18,12 +18,15 @@ def count_parameters(model):
 
 def plot_confusion_matrix(cm, class_names, model_name, save_path):
     """Plot and save confusion matrix"""
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(12, 10))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
-                xticklabels=class_names, yticklabels=class_names)
-    plt.title(f'Confusion Matrix - {model_name}')
-    plt.xlabel('Predicted Label')
-    plt.ylabel('True Label')
+                xticklabels=class_names, yticklabels=class_names,
+                cbar_kws={'label': 'Number of Samples'})
+    plt.title(f'Confusion Matrix - {model_name}', fontsize=16, fontweight='bold', pad=20)
+    plt.xlabel('Predicted Label', fontsize=12, fontweight='bold')
+    plt.ylabel('True Label', fontsize=12, fontweight='bold')
+    plt.xticks(rotation=45, ha='right', fontsize=10)
+    plt.yticks(rotation=0, fontsize=10)
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
@@ -98,7 +101,7 @@ def save_detailed_report(results, save_path):
             f.write(result['metrics']['classification_report'])
             f.write("\n" + "=" * 80 + "\n\n")
 
-def evaluate_model(model, test_loader):
+def evaluate_model(model, test_loader, class_names=None):
     """Evaluate a single model and return comprehensive metrics"""
     model.eval()
     all_preds = []
@@ -132,7 +135,10 @@ def evaluate_model(model, test_loader):
     cm = confusion_matrix(all_trues, all_preds)
     
     # Classification report
-    class_report = classification_report(all_trues, all_preds, zero_division=0)
+    if class_names:
+        class_report = classification_report(all_trues, all_preds, target_names=class_names, zero_division=0)
+    else:
+        class_report = classification_report(all_trues, all_preds, zero_division=0)
     
     return {
         'accuracy': test_acc,
@@ -161,10 +167,28 @@ def main():
     
     print(f"📊 Dataset: {windows.shape}, Labels: {labels.shape}")
     
-    # Define class names (assuming 5 classes based on your data)
-    class_names = ['Normal', 'Fault_1', 'Fault_2', 'Fault_3', 'Fault_4']
+    # Define actual NPP fault class names based on your data
+    class_names = [
+        'Normal Operation',
+        'Feedwater Break', 
+        'PORV Opening',
+        'Steam Gen Tube Rupture',
+        'Pump Failure'
+    ]
+    
+    # Adjust class names if number of unique labels differs
     if len(np.unique(labels)) != len(class_names):
-        class_names = [f'Class_{i}' for i in range(len(np.unique(labels)))]
+        if len(np.unique(labels)) == 6:
+            class_names = [
+                'Normal Operation',
+                'Feedwater Break',
+                'PORV Opening', 
+                'Steam Gen Tube Rupture',
+                'Pump Failure',
+                'Power Change'
+            ]
+        else:
+            class_names = [f'Class_{i}' for i in range(len(np.unique(labels)))]
     
     print(f"📝 Classes: {class_names}")
     
@@ -284,7 +308,7 @@ def main():
             loader = basic_loader if feature_type == "basic" else enhanced_loader
             
             # Evaluate
-            metrics = evaluate_model(model, loader)
+            metrics = evaluate_model(model, loader, class_names)
             param_count = count_parameters(model)
             
             print(f"✅ {model_name}")

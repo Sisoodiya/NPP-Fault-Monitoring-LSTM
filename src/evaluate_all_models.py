@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import torch
 import numpy as np
 from models import CNN_LSTM_Model, Enhanced_CNN_LSTM_Model, LargeCNN_LSTM_Model, UltraLargeEnhanced_CNN_LSTM_Model

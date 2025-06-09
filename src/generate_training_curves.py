@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# src/generate_training_curves.py
-
 import os
 import torch
 import torch.nn as nn

@@ -1,5 +1,3 @@
-# src/features.py
-
 import numpy as np
 import scipy.stats as stats
 from scipy.stats import entropy

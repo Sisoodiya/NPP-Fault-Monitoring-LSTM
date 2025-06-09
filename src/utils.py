@@ -1,5 +1,3 @@
-# src/utils.py
-
 import os
 import pickle
 import numpy as np

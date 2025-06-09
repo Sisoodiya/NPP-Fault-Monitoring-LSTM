@@ -1,5 +1,3 @@
-# src/train_large_models.py
-
 import os
 import torch
 import torch.nn as nn

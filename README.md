@@ -7,7 +7,7 @@ This directory contains the clean, organized source code for the NPP Fault Monit
 ### Core Modules
 - **`models.py`** - All neural network model architectures (CNN-LSTM, Enhanced, Large-scale, Ultra-large)
 - **`features.py`** - Feature extraction functions (statistical features, WKS, entropy, etc.)
-- **`utils.py`** - Utility functions for data processing and visualization
+- **`utils.py`** - Utility functions for data processing and visualisation
 - **`data_preprocessing.py`** - Data preprocessing and windowing functions
 
 ### Training Scripts
@@ -17,7 +17,7 @@ This directory contains the clean, organized source code for the NPP Fault Monit
 - **`train_siao_optimization.py`** - Train models using SIAO optimization
 
 ### Optimization
-- **`siao_optimizer.py`** - SIAO (Swarm Intelligence Adaptive Optimization) implementation
+- **`siao_optimizer.py`** - SIAO (Self Aquila Optimization) implementation
 
 ### Evaluation
 - **`evaluate_all_models.py`** - Comprehensive evaluation script for all trained models

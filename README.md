@@ -1,6 +1,6 @@
 # NPP Fault Monitoring System - Source Code
 
-This directory contains the clean, organized source code for the NPP Fault Monitoring System.
+This directory contains the clean, organised source code for the NPP Fault Monitoring System.
 
 ## 📁 File Structure
 
@@ -17,7 +17,7 @@ This directory contains the clean, organized source code for the NPP Fault Monit
 - **`train_siao_optimization.py`** - Train models using SIAO optimization
 
 ### Optimization
-- **`siao_optimizer.py`** - SIAO (Self Aquila Optimization) implementation
+- **`siao_optimizer.py`** - SIAO (Self Aquila Optimisation) implementation
 
 ### Evaluation
 - **`evaluate_all_models.py`** - Comprehensive evaluation script for all trained models
@@ -35,13 +35,13 @@ python evaluate_all_models.py
 # Train basic model
 python train_basic_cnn_lstm.py
 
-# Train enhanced model  
+# Train the enhanced model  
 python train_enhanced_cnn_lstm.py
 
 # Train large-scale models
 python train_large_scale_models.py
 
-# Train with SIAO optimization
+# Train with SIAO optimisation
 python train_siao_optimization.py
 ```
 
